@@ -18,6 +18,7 @@ export interface Frontmatter {
   type: ContentType;
   growthStage?: GrowthStage;
   topics?: string[];
+  genre?: string;
   cover?: string;
   externalUrl?: string;
   podcastName?: string;

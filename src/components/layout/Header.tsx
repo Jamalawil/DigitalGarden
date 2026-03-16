@@ -2,20 +2,48 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-const GARDEN_SECTIONS = [
-  { href: '/essays',      label: 'Essays',      desc: 'Opinionated, long-form writing with an agenda' },
-  { href: '/notes',       label: 'Notes',       desc: "Loose notes on things I don't entirely understand yet" },
-  { href: '/patterns',    label: 'Patterns',    desc: 'Design patterns from observation and research' },
-  { href: '/smidgeons',   label: 'Smidgeons',   desc: 'Links, papers, and tiny thoughts' },
-  { href: '/talks',       label: 'Talks',       desc: 'Conference talks, slides, and transcripts' },
-  { href: '/podcasts',    label: 'Podcasts',    desc: "Podcast episodes I've been a guest on" },
-  { href: '/library',     label: 'Library',     desc: "Books I've read and recommend" },
-  { href: '/antilibrary', label: 'Antilibrary', desc: 'Books I want to have read' },
+const CONTENT_TYPES = [
+  { href: '/essays',      label: 'Essays',      icon: '✦', desc: 'Opinionated long-form' },
+  { href: '/notes',       label: 'Notes',       icon: '○', desc: 'Thinking in progress' },
+  { href: '/patterns',    label: 'Patterns',    icon: '◈', desc: 'Reusable frameworks' },
+  { href: '/smidgeons',   label: 'Smidgeons',   icon: '·', desc: 'Links & tiny thoughts' },
+  { href: '/talks',       label: 'Talks',       icon: '◎', desc: 'Slides & transcripts' },
+  { href: '/podcasts',    label: 'Podcasts',    icon: '◉', desc: 'Guest appearances' },
+  { href: '/library',     label: 'Library',     icon: '▣', desc: "Books I've read" },
+  { href: '/antilibrary', label: 'Antilibrary', icon: '□', desc: 'Books I want to read' },
+];
+
+const PRIMARY_GENRES = [
+  { slug: 'investigative-journalism',     label: 'Investigative',    target: 24 },
+  { slug: 'news-feature',                 label: 'News Feature',     target: 18 },
+  { slug: 'opinion-journalism',           label: 'Opinion',          target: 18 },
+  { slug: 'science-journalism',           label: 'Science',          target: 15 },
+  { slug: 'environmental-journalism',     label: 'Environmental',    target: 12 },
+  { slug: 'local-community-journalism',   label: 'Local / Community',target: 12 },
+  { slug: 'sports-journalism',            label: 'Sports',           target: 12 },
+  { slug: 'new-journalism',               label: 'New Journalism',   target: 12 },
+  { slug: 'data-journalism',              label: 'Data',             target: 9  },
+  { slug: 'celebrity-people-journalism',  label: 'Celebrity / People',target: 9 },
+  { slug: 'gonzo-journalism',             label: 'Gonzo',            target: 6  },
+];
+
+const SUPPLEMENTARY_GENRES = [
+  { slug: 'medical-journalism',     label: 'Medical',      target: 9 },
+  { slug: 'solutions-journalism',   label: 'Solutions',    target: 6 },
+  { slug: 'service-journalism',     label: 'Service',      target: 6 },
+  { slug: 'advocacy-journalism',    label: 'Advocacy',     target: 6 },
+  { slug: 'entertainment-journalism', label: 'Entertainment', target: 6 },
+];
+
+const CREATIVE_GENRES = [
+  { slug: 'cnf-essays',      label: 'CNF Essays',     target: 12 },
+  { slug: 'literary-essays', label: 'Literary Essays', target: 12 },
+  { slug: 'travel-writing',  label: 'Travel Writing',  target: 6  },
 ];
 
 export default function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen]     = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,17 +56,18 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  const close = () => setDropdownOpen(false);
+
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 40,
-      background: 'rgba(250, 249, 247, 0.95)',
+      background: 'rgba(250, 248, 243, 0.96)',
       backdropFilter: 'blur(8px)',
       borderBottom: '1px solid var(--border-light)',
     }}>
       <div style={{
         maxWidth: '1200px', margin: '0 auto',
-        padding: '0 1.5rem',
-        height: '52px',
+        padding: '0 1.5rem', height: '52px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         {/* Logo */}
@@ -55,81 +84,190 @@ export default function Header() {
 
         {/* Right nav */}
         <nav style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-          {/* Garden Dropdown */}
+
+          {/* ── The Garden dropdown ── */}
           <div className="garden-dropdown" ref={dropdownRef}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
-              <Link
-                href="/garden"
-                style={{
-                  fontWeight: 500, fontSize: '0.9rem',
-                  color: 'var(--text-primary)', fontFamily: 'var(--font-ui)',
-                  textDecoration: 'none',
-                }}
-              >
+              <Link href="/garden" onClick={close} style={{
+                fontWeight: 500, fontSize: '0.9rem',
+                color: 'var(--text-primary)', fontFamily: 'var(--font-ui)',
+                textDecoration: 'none',
+              }}>
                 The Garden
               </Link>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)',
-                  display: 'flex', alignItems: 'center',
-                  padding: '0 0.1rem',
-                  fontSize: '0.6rem',
-                }}
-              >
+              <button onClick={() => setDropdownOpen(!dropdownOpen)} style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)',
+                display: 'flex', alignItems: 'center',
+                padding: '0 0.1rem', fontSize: '0.6rem',
+              }}>
                 {dropdownOpen ? '▲' : '▼'}
               </button>
             </div>
 
             {dropdownOpen && (
-              <div className="garden-dropdown-menu">
-                {GARDEN_SECTIONS.map((s) => (
-                  <Link
-                    key={s.href}
-                    href={s.href}
-                    onClick={() => setDropdownOpen(false)}
-                    className="dropdown-item"
-                    style={{ textDecoration: 'none', color: 'inherit', display: 'block', padding: '0.5rem 0.6rem', borderRadius: '6px' }}
-                  >
-                    <div style={{ fontWeight: 700, fontSize: '0.85rem', marginBottom: '0.1rem', color: 'var(--text-primary)' }}>{s.label}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', lineHeight: 1.35 }}>{s.desc}</div>
-                  </Link>
-                ))}
+              <div style={{
+                position: 'absolute',
+                top: '52px',
+                right: '1.5rem',
+                width: '780px',
+                background: 'white',
+                border: '1px solid var(--border-light)',
+                borderRadius: '14px',
+                boxShadow: '0 12px 48px rgba(40,30,20,0.12)',
+                display: 'grid',
+                gridTemplateColumns: '220px 1fr',
+                overflow: 'hidden',
+                zIndex: 50,
+              }}>
+
+                {/* ── Left: Content Types ── */}
+                <div style={{
+                  background: 'var(--bg-secondary)',
+                  padding: '1.1rem',
+                  borderRight: '1px solid var(--border-light)',
+                }}>
+                  <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', marginBottom: '0.6rem', paddingLeft: '0.4rem' }}>
+                    Content Types
+                  </div>
+                  {CONTENT_TYPES.map((s) => (
+                    <Link key={s.href} href={s.href} onClick={close} style={{
+                      display: 'flex', alignItems: 'center', gap: '0.6rem',
+                      padding: '0.42rem 0.5rem', borderRadius: '6px',
+                      textDecoration: 'none', color: 'inherit',
+                      transition: 'background 0.1s',
+                    }}
+                      className="dropdown-item">
+                      <span style={{ fontSize: '0.7rem', color: 'var(--accent-primary)', fontWeight: 700, width: '14px', textAlign: 'center' }}>{s.icon}</span>
+                      <div>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>{s.label}</div>
+                        <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{s.desc}</div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* ── Right: Genres ── */}
+                <div style={{ padding: '1.1rem 1.2rem' }}>
+
+                  {/* Primary genres */}
+                  <div style={{ marginBottom: '1rem' }}>
+                    <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', marginBottom: '0.55rem' }}>
+                      Primary Genres
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.15rem' }}>
+                      {PRIMARY_GENRES.map((g) => (
+                        <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
+                          className="dropdown-item"
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: '0.32rem 0.5rem', borderRadius: '5px',
+                            textDecoration: 'none', color: 'inherit',
+                          }}>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
+                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', whiteSpace: 'nowrap' }}>{g.target}/yr</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '0.85rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    {/* Supplementary genres */}
+                    <div>
+                      <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', marginBottom: '0.45rem' }}>
+                        Supplementary
+                      </div>
+                      {SUPPLEMENTARY_GENRES.map((g) => (
+                        <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
+                          className="dropdown-item"
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: '0.28rem 0.5rem', borderRadius: '5px',
+                            textDecoration: 'none', color: 'inherit',
+                          }}>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
+                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{g.target}/yr</span>
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Creative & Literary */}
+                    <div>
+                      <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', marginBottom: '0.45rem' }}>
+                        Creative & Literary
+                      </div>
+                      {CREATIVE_GENRES.map((g) => (
+                        <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
+                          className="dropdown-item"
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: '0.28rem 0.5rem', borderRadius: '5px',
+                            textDecoration: 'none', color: 'inherit',
+                          }}>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
+                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{g.target}/yr</span>
+                        </Link>
+                      ))}
+
+                      {/* All genres link */}
+                      <Link href="/genres" onClick={close} style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
+                        marginTop: '0.9rem',
+                        fontSize: '0.73rem', fontWeight: 600,
+                        color: 'var(--accent-primary)', textDecoration: 'none',
+                        fontFamily: 'var(--font-ui)',
+                      }}>
+                        View all genres →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
-          <Link href="/essays" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">Essays</Link>
-          <Link href="/podcasts" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">Podcasts</Link>
-          <Link href="/library" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">Library</Link>
-          <Link href="/antilibrary" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">Antilibrary</Link>
-          <Link href="/now" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">Now</Link>
-          <Link href="/about" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }} className="desktop-only">About</Link>
+          {/* Top-level quick links */}
+          <Link href="/essays"      className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Essays</Link>
+          <Link href="/podcasts"    className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Podcasts</Link>
+          <Link href="/library"     className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Library</Link>
+          <Link href="/antilibrary" className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Antilibrary</Link>
+          <Link href="/now"         className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Now</Link>
+          <Link href="/about"       className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>About</Link>
 
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="mobile-only"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.1rem', padding: '0.25rem' }}
-          >
+          {/* Mobile hamburger */}
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-only"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.1rem', padding: '0.25rem' }}>
             {mobileOpen ? '✕' : '☰'}
           </button>
         </nav>
       </div>
 
+      {/* ── Mobile menu ── */}
       {mobileOpen && (
         <div className="mobile-only" style={{
           background: 'var(--bg-primary)',
           borderTop: '1px solid var(--border-light)',
           padding: '0.75rem 1.5rem 1.25rem',
+          maxHeight: '80vh',
+          overflowY: 'auto',
         }}>
-          {[...GARDEN_SECTIONS, { href: '/now', label: 'Now', desc: '' }, { href: '/about', label: 'About', desc: '' }].map((s) => (
+          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', padding: '0.5rem 0 0.25rem' }}>Content</div>
+          {CONTENT_TYPES.map((s) => (
             <Link key={s.href} href={s.href} onClick={() => setMobileOpen(false)}
-              style={{ display: 'block', padding: '0.65rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.95rem' }}>
+              style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem' }}>
               {s.label}
-              {s.desc && <span style={{ display: 'block', fontWeight: 400, fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.1rem' }}>{s.desc}</span>}
             </Link>
           ))}
+          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', padding: '0.75rem 0 0.25rem' }}>Genres</div>
+          {[...PRIMARY_GENRES, ...SUPPLEMENTARY_GENRES, ...CREATIVE_GENRES].map((g) => (
+            <Link key={g.slug} href={`/genres/${g.slug}`} onClick={() => setMobileOpen(false)}
+              style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.88rem' }}>
+              <span>{g.label}</span>
+              <span style={{ color: 'var(--text-tertiary)', fontSize: '0.75rem' }}>{g.target}/yr</span>
+            </Link>
+          ))}
+          <Link href="/now" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem', marginTop: '0.5rem' }}>Now</Link>
+          <Link href="/about" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem' }}>About</Link>
         </div>
       )}
     </header>

@@ -449,6 +449,15 @@ a:hover { color: var(--accent-hover); }
 }
 
 /* ============================================
+   GENRE CARDS
+   ============================================ */
+.genre-card:hover {
+  box-shadow: 0 6px 24px rgba(40, 30, 20, 0.1);
+  transform: scale(1.015);
+  border-color: var(--border-medium);
+}
+
+/* ============================================
    LEGACY card classes (section pages)
    ============================================ */
 .card-link {
