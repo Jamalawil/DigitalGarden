@@ -2,48 +2,17 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-/* ── JA Logo SVG ──────────────────────────────────────────
-   Recreated from the Jamal Awil brand mark:
-   • Dark forest green background  #2c3d26
-   • Cream J letterform            #ece8de
-   • Lime green a letterform       #72c040
-───────────────────────────────────────────────────────── */
-function LogoMark({ size = 36 }: { size?: number }) {
+function LogoMark({ size = 44 }: { size?: number }) {
+  // Logo viewBox is 386×306 — maintain aspect ratio
+  const w = Math.round(size * (386 / 306));
   return (
-    <svg
-      width={size}
+    <img
+      src="/logo.svg"
+      width={w}
       height={size}
-      viewBox="0 0 80 80"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-label="Jamal Awil"
-    >
-      {/* Dark forest green background */}
-      <rect width="80" height="80" rx="13" fill="#2c3d26" />
-
-      {/* J — cream: serif crossbar at top, vertical stem, left-hook curve */}
-      {/* Serif top bar */}
-      <line x1="18" y1="14" x2="36" y2="14"
-        stroke="#ece8de" strokeWidth="6.5" strokeLinecap="round" />
-      {/* Stem + bottom hook */}
-      <path
-        d="M 27 14 L 27 52 C 27 65 13 67 10 59"
-        stroke="#ece8de"
-        strokeWidth="6.5"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* a — lime green: open bowl (circle open at top-right) + right descender */}
-      <path
-        d="M 69 37 C 69 25 50 25 50 37 C 50 49 69 49 69 37 L 69 55"
-        stroke="#72c040"
-        strokeWidth="7"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+      alt="Jamal Awil"
+      style={{ display: 'block' }}
+    />
   );
 }
 
