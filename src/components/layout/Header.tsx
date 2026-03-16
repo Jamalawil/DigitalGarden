@@ -17,24 +17,28 @@ function LogoMark({ size = 36 }: { size?: number }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-label="Jamal Awil"
     >
-      {/* Background */}
-      <rect width="80" height="80" rx="10" fill="#2c3d26" />
+      {/* Dark forest green background */}
+      <rect width="80" height="80" rx="13" fill="#2c3d26" />
 
-      {/* J — cream curved stroke: vertical then hooks left at bottom */}
+      {/* J — cream: serif crossbar at top, vertical stem, left-hook curve */}
+      {/* Serif top bar */}
+      <line x1="18" y1="14" x2="36" y2="14"
+        stroke="#ece8de" strokeWidth="6.5" strokeLinecap="round" />
+      {/* Stem + bottom hook */}
       <path
-        d="M 34 10 L 34 50 C 34 64 20 67 14 58"
+        d="M 27 14 L 27 52 C 27 65 13 67 10 59"
         stroke="#ece8de"
-        strokeWidth="11"
+        strokeWidth="6.5"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
 
-      {/* a — lime green: open circle ring + right-side descender */}
+      {/* a — lime green: open bowl (circle open at top-right) + right descender */}
       <path
-        d="M 68 36 C 68 24 48 24 48 36 C 48 48 68 48 68 36 L 68 54"
+        d="M 69 37 C 69 25 50 25 50 37 C 50 49 69 49 69 37 L 69 55"
         stroke="#72c040"
-        strokeWidth="9"
+        strokeWidth="7"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -102,8 +106,8 @@ export default function Header() {
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 40,
-      background: 'var(--brand-dark)',
-      borderBottom: '1px solid rgba(255,255,255,0.07)',
+      backgroundColor: '#2c3d26',
+      borderBottom: '1px solid rgba(255,255,255,0.08)',
     }}>
       <div style={{
         maxWidth: '1200px', margin: '0 auto',
@@ -275,7 +279,7 @@ export default function Header() {
       {/* ── Mobile menu ── */}
       {mobileOpen && (
         <div className="mobile-only" style={{
-          background: 'var(--brand-dark)',
+          backgroundColor: '#2c3d26',
           borderTop: '1px solid rgba(255,255,255,0.08)',
           padding: '0.75rem 1.5rem 1.25rem',
           maxHeight: '80vh',
