@@ -2,6 +2,47 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
+/* ── JA Logo SVG ──────────────────────────────────────────
+   Recreated from the Jamal Awil brand mark:
+   • Dark forest green background  #2c3d26
+   • Cream J letterform            #ece8de
+   • Lime green a letterform       #72c040
+───────────────────────────────────────────────────────── */
+function LogoMark({ size = 36 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 80 80"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Jamal Awil"
+    >
+      {/* Background */}
+      <rect width="80" height="80" rx="10" fill="#2c3d26" />
+
+      {/* J — cream curved stroke: vertical then hooks left at bottom */}
+      <path
+        d="M 34 10 L 34 50 C 34 64 20 67 14 58"
+        stroke="#ece8de"
+        strokeWidth="11"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* a — lime green: open circle ring + right-side descender */}
+      <path
+        d="M 68 36 C 68 24 48 24 48 36 C 48 48 68 48 68 36 L 68 54"
+        stroke="#72c040"
+        strokeWidth="9"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const CONTENT_TYPES = [
   { href: '/essays',      label: 'Essays',      icon: '✦', desc: 'Opinionated long-form' },
   { href: '/notes',       label: 'Notes',       icon: '○', desc: 'Thinking in progress' },
@@ -61,9 +102,8 @@ export default function Header() {
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 40,
-      background: 'rgba(250, 248, 243, 0.96)',
-      backdropFilter: 'blur(8px)',
-      borderBottom: '1px solid var(--border-light)',
+      background: 'var(--brand-dark)',
+      borderBottom: '1px solid rgba(255,255,255,0.07)',
     }}>
       <div style={{
         maxWidth: '1200px', margin: '0 auto',
@@ -71,15 +111,8 @@ export default function Header() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         {/* Logo */}
-        <Link href="/" style={{
-          fontWeight: 700, fontSize: '1.05rem',
-          textDecoration: 'none', color: 'var(--text-primary)',
-          fontFamily: 'var(--font-ui)',
-          display: 'flex', alignItems: 'center', gap: '0.1rem',
-        }}>
-          <span style={{ color: 'var(--accent-primary)' }}>→</span>
-          <span>J</span>
-          <span style={{ color: 'var(--accent-primary)' }}>←</span>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+          <LogoMark size={36} />
         </Link>
 
         {/* Right nav */}
@@ -90,14 +123,14 @@ export default function Header() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
               <Link href="/garden" onClick={close} style={{
                 fontWeight: 500, fontSize: '0.9rem',
-                color: 'var(--text-primary)', fontFamily: 'var(--font-ui)',
+                color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-ui)',
                 textDecoration: 'none',
               }}>
                 The Garden
               </Link>
               <button onClick={() => setDropdownOpen(!dropdownOpen)} style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)',
+                color: 'rgba(255,255,255,0.5)', fontFamily: 'var(--font-ui)',
                 display: 'flex', alignItems: 'center',
                 padding: '0 0.1rem', fontSize: '0.6rem',
               }}>
@@ -111,7 +144,7 @@ export default function Header() {
                 top: '52px',
                 right: '1.5rem',
                 width: '780px',
-                background: 'white',
+                background: 'var(--bg-primary)',
                 border: '1px solid var(--border-light)',
                 borderRadius: '14px',
                 boxShadow: '0 12px 48px rgba(40,30,20,0.12)',
@@ -123,7 +156,7 @@ export default function Header() {
 
                 {/* ── Left: Content Types ── */}
                 <div style={{
-                  background: 'var(--bg-secondary)',
+                  background: 'var(--bg-tertiary)',
                   padding: '1.1rem',
                   borderRight: '1px solid var(--border-light)',
                 }}>
@@ -160,12 +193,11 @@ export default function Header() {
                         <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
                           className="dropdown-item"
                           style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            display: 'block',
                             padding: '0.32rem 0.5rem', borderRadius: '5px',
                             textDecoration: 'none', color: 'inherit',
                           }}>
                           <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
-                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', whiteSpace: 'nowrap' }}>{g.target}/yr</span>
                         </Link>
                       ))}
                     </div>
@@ -181,12 +213,11 @@ export default function Header() {
                         <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
                           className="dropdown-item"
                           style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            display: 'block',
                             padding: '0.28rem 0.5rem', borderRadius: '5px',
                             textDecoration: 'none', color: 'inherit',
                           }}>
                           <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
-                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{g.target}/yr</span>
                         </Link>
                       ))}
                     </div>
@@ -200,12 +231,11 @@ export default function Header() {
                         <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
                           className="dropdown-item"
                           style={{
-                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            display: 'block',
                             padding: '0.28rem 0.5rem', borderRadius: '5px',
                             textDecoration: 'none', color: 'inherit',
                           }}>
                           <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
-                          <span style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{g.target}/yr</span>
                         </Link>
                       ))}
 
@@ -227,16 +257,16 @@ export default function Header() {
           </div>
 
           {/* Top-level quick links */}
-          <Link href="/essays"      className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Essays</Link>
-          <Link href="/podcasts"    className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Podcasts</Link>
-          <Link href="/library"     className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Library</Link>
-          <Link href="/antilibrary" className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Antilibrary</Link>
-          <Link href="/now"         className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>Now</Link>
-          <Link href="/about"       className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'var(--text-secondary)', fontWeight: 500 }}>About</Link>
+          <Link href="/essays"      className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Essays</Link>
+          <Link href="/podcasts"    className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Podcasts</Link>
+          <Link href="/library"     className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Library</Link>
+          <Link href="/antilibrary" className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Antilibrary</Link>
+          <Link href="/now"         className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>Now</Link>
+          <Link href="/about"       className="desktop-only" style={{ fontSize: '0.9rem', textDecoration: 'none', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>About</Link>
 
           {/* Mobile hamburger */}
           <button onClick={() => setMobileOpen(!mobileOpen)} className="mobile-only"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.1rem', padding: '0.25rem' }}>
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.1rem', padding: '0.25rem', color: 'rgba(255,255,255,0.9)' }}>
             {mobileOpen ? '✕' : '☰'}
           </button>
         </nav>
@@ -245,29 +275,28 @@ export default function Header() {
       {/* ── Mobile menu ── */}
       {mobileOpen && (
         <div className="mobile-only" style={{
-          background: 'var(--bg-primary)',
-          borderTop: '1px solid var(--border-light)',
+          background: 'var(--brand-dark)',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
           padding: '0.75rem 1.5rem 1.25rem',
           maxHeight: '80vh',
           overflowY: 'auto',
         }}>
-          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', padding: '0.5rem 0 0.25rem' }}>Content</div>
+          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-ui)', padding: '0.5rem 0 0.25rem' }}>Content</div>
           {CONTENT_TYPES.map((s) => (
             <Link key={s.href} href={s.href} onClick={() => setMobileOpen(false)}
-              style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem' }}>
+              style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: 'rgba(255,255,255,0.85)', fontWeight: 600, fontSize: '0.92rem' }}>
               {s.label}
             </Link>
           ))}
-          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', padding: '0.75rem 0 0.25rem' }}>Genres</div>
+          <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-ui)', padding: '0.75rem 0 0.25rem' }}>Genres</div>
           {[...PRIMARY_GENRES, ...SUPPLEMENTARY_GENRES, ...CREATIVE_GENRES].map((g) => (
             <Link key={g.slug} href={`/genres/${g.slug}`} onClick={() => setMobileOpen(false)}
-              style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 500, fontSize: '0.88rem' }}>
-              <span>{g.label}</span>
-              <span style={{ color: 'var(--text-tertiary)', fontSize: '0.75rem' }}>{g.target}/yr</span>
+              style={{ display: 'block', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: 'rgba(255,255,255,0.75)', fontWeight: 500, fontSize: '0.88rem' }}>
+              {g.label}
             </Link>
           ))}
-          <Link href="/now" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid var(--border-light)', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem', marginTop: '0.5rem' }}>Now</Link>
-          <Link href="/about" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', textDecoration: 'none', color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.92rem' }}>About</Link>
+          <Link href="/now" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', borderBottom: '1px solid rgba(255,255,255,0.08)', textDecoration: 'none', color: 'rgba(255,255,255,0.85)', fontWeight: 600, fontSize: '0.92rem', marginTop: '0.5rem' }}>Now</Link>
+          <Link href="/about" onClick={() => setMobileOpen(false)} style={{ display: 'block', padding: '0.55rem 0', textDecoration: 'none', color: 'rgba(255,255,255,0.85)', fontWeight: 600, fontSize: '0.92rem' }}>About</Link>
         </div>
       )}
     </header>

@@ -43,7 +43,6 @@ const ALL_GENRES = [
 
 export default function GenresPage() {
   const allContent = getAllContent();
-  const totalTarget = ALL_GENRES.flatMap(g => g.genres).reduce((sum, g) => sum + g.target, 0);
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem 1.5rem' }}>
@@ -60,23 +59,18 @@ export default function GenresPage() {
         A structured framework for writing across journalism and literary forms.
       </p>
       <p style={{ fontFamily: 'var(--font-ui)', fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: '3rem' }}>
-        {totalTarget} pieces targeted per year across {ALL_GENRES.flatMap(g => g.genres).length} genres
+        {ALL_GENRES.flatMap(g => g.genres).length} genres
         · {allContent.filter(i => i.frontmatter.genre).length} published so far
       </p>
 
       {ALL_GENRES.map((group) => {
-        const groupTotal = group.genres.reduce((s, g) => s + g.target, 0);
         return (
           <section key={group.group} style={{ marginBottom: '3.5rem' }}>
             {/* Group header */}
             <div style={{
-              display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
               borderBottom: '2px solid var(--border-light)', paddingBottom: '0.5rem', marginBottom: '1.25rem',
             }}>
               <h2 style={{ fontSize: '1.1rem', fontWeight: 600, margin: 0 }}>{group.group}</h2>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>
-                {groupTotal} pieces/year
-              </span>
             </div>
 
             {/* Genre cards grid */}
@@ -93,12 +87,9 @@ export default function GenresPage() {
                     transition: 'box-shadow 0.2s, transform 0.2s, border-color 0.2s',
                   }}
                     className="genre-card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.3rem' }}>
+                    <div style={{ marginBottom: '0.3rem' }}>
                       <span style={{ fontFamily: 'var(--font-serif, Georgia, serif)', fontWeight: 600, fontSize: '0.95rem', color: 'var(--text-primary)', lineHeight: 1.3 }}>
                         {genre.label}
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-ui)', fontSize: '0.7rem', color: 'var(--text-tertiary)', whiteSpace: 'nowrap', marginLeft: '0.5rem', marginTop: '0.1rem' }}>
-                        {genre.target}/yr
                       </span>
                     </div>
                     <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-ui)', margin: '0 0 0.75rem', lineHeight: 1.4 }}>
