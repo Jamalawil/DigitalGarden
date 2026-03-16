@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { ContentItem } from '@/lib/types';
 import { formatDistanceToNow } from 'date-fns';
 import { CONTENT_TYPE_ICONS } from '@/components/ui/ContentTypeIcons';
+import CoverImage from '@/components/ui/CoverImage';
 
 const TYPE_LABELS: Record<string, string> = {
   essay:       'Essay',
@@ -51,8 +51,7 @@ export default function GardenCard({ item }: { item: ContentItem }) {
       <a href={href} {...linkProps} className="garden-card garden-card--row">
         <div className="garden-card__thumb">
           {frontmatter.cover ? (
-            <Image src={frontmatter.cover} alt={frontmatter.title} fill
-              style={{ objectFit: 'cover' }} sizes="64px" />
+            <CoverImage src={frontmatter.cover} alt={frontmatter.title} sizes="64px" />
           ) : (
             <div className="garden-card__thumb-placeholder">
               <TypeIcon type={frontmatter.type} size={26} />
@@ -84,9 +83,7 @@ export default function GardenCard({ item }: { item: ContentItem }) {
     return (
       <Link href={href} className="garden-card garden-card--image">
         <div className="garden-card__image">
-          <Image src={frontmatter.cover} alt={frontmatter.title} fill
-            style={{ objectFit: 'cover' }}
-            sizes="(max-width: 768px) 100vw, 380px" />
+          <CoverImage src={frontmatter.cover} alt={frontmatter.title} sizes="(max-width: 768px) 100vw, 380px" />
         </div>
         <div className="garden-card__body">
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem', marginBottom: '0.35rem' }}>

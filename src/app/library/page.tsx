@@ -1,5 +1,5 @@
 import { getAllContent } from '@/lib/content';
-import Image from 'next/image';
+import CoverImage from '@/components/ui/CoverImage';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -26,11 +26,9 @@ export default function LibraryPage() {
             <Link key={book.slug} href={`/${book.slug}`} className="book-card">
               <div className="book-card__cover">
                 {book.frontmatter.cover ? (
-                  <Image
+                  <CoverImage
                     src={book.frontmatter.cover}
                     alt={book.frontmatter.title}
-                    fill
-                    style={{ objectFit: 'cover' }}
                     sizes="(max-width: 600px) 50vw, (max-width: 900px) 33vw, 25vw"
                   />
                 ) : (
