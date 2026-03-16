@@ -307,6 +307,51 @@ a:hover { color: var(--accent-hover); }
   border-radius: 6px;
 }
 
+/* ── Content type icon — sea blue default, green on hover ── */
+.content-type-icon {
+  color: var(--sea-blue);
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+/* Card hover lifts and recolors the icon */
+.garden-card:hover .content-type-icon {
+  color: var(--accent-primary);
+  transform: scale(1.18) translateY(-1px);
+}
+
+/* Dropdown item hover recolors its icon */
+.dropdown-type-item:hover .content-type-icon {
+  color: var(--accent-primary);
+  transform: scale(1.15);
+}
+
+/* Thumbnail placeholder icon */
+.garden-card__thumb-placeholder .content-type-icon {
+  color: var(--sea-blue);
+}
+.garden-card:hover .garden-card__thumb-placeholder .content-type-icon {
+  color: var(--accent-primary);
+}
+
+/* Section page icon headers (used on /essays, /notes etc.) */
+.section-type-icon {
+  color: var(--sea-blue);
+  display: inline-flex;
+  transition: color 0.18s ease, transform 0.2s ease;
+}
+.section-type-icon:hover {
+  color: var(--accent-primary);
+  transform: scale(1.12) rotate(-4deg);
+}
+
+/* Keyframe: gentle float for icons on load */
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+
 /* Show/hide helpers */
 .desktop-only { display: inline-flex; }
 .mobile-only  { display: none; }

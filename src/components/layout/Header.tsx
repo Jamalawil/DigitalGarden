@@ -1,6 +1,10 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import {
+  EssayIcon, NoteIcon, PatternIcon, SmidgeonIcon,
+  TalkIcon, PodcastIcon, LibraryIcon, AntilibraryIcon,
+} from '@/components/ui/ContentTypeIcons';
 
 function LogoMark({ size = 44 }: { size?: number }) {
   // Logo viewBox is 386×306 — maintain aspect ratio
@@ -17,14 +21,14 @@ function LogoMark({ size = 44 }: { size?: number }) {
 }
 
 const CONTENT_TYPES = [
-  { href: '/essays',      label: 'Essays',      icon: '✦', desc: 'Opinionated long-form' },
-  { href: '/notes',       label: 'Notes',       icon: '○', desc: 'Thinking in progress' },
-  { href: '/patterns',    label: 'Patterns',    icon: '◈', desc: 'Reusable frameworks' },
-  { href: '/smidgeons',   label: 'Smidgeons',   icon: '·', desc: 'Links & tiny thoughts' },
-  { href: '/talks',       label: 'Talks',       icon: '◎', desc: 'Slides & transcripts' },
-  { href: '/podcasts',    label: 'Podcasts',    icon: '◉', desc: 'Guest appearances' },
-  { href: '/library',     label: 'Library',     icon: '▣', desc: "Books I've read" },
-  { href: '/antilibrary', label: 'Antilibrary', icon: '□', desc: 'Books I want to read' },
+  { href: '/essays',      label: 'Essays',      Icon: EssayIcon,       desc: 'Opinionated, long-form narrative writing with an agenda' },
+  { href: '/notes',       label: 'Notes',       Icon: NoteIcon,        desc: "Loose notes on things I don't entirely understand yet" },
+  { href: '/patterns',    label: 'Patterns',    Icon: PatternIcon,     desc: 'A catalogue of design patterns gathered from observation and research' },
+  { href: '/smidgeons',   label: 'Smidgeons',   Icon: SmidgeonIcon,    desc: 'Interesting links, papers, and tiny thoughts' },
+  { href: '/talks',       label: 'Talks',       Icon: TalkIcon,        desc: 'Conference talk slides, transcripts, and videos' },
+  { href: '/podcasts',    label: 'Podcasts',    Icon: PodcastIcon,     desc: "Podcast episodes I've been a guest on" },
+  { href: '/library',     label: 'Library',     Icon: LibraryIcon,     desc: "Books I've read and recommend" },
+  { href: '/antilibrary', label: 'Antilibrary', Icon: AntilibraryIcon, desc: 'Books I like the idea of having read' },
 ];
 
 const PRIMARY_GENRES = [
@@ -137,17 +141,19 @@ export default function Header() {
                     Content Types
                   </div>
                   {CONTENT_TYPES.map((s) => (
-                    <Link key={s.href} href={s.href} onClick={close} style={{
-                      display: 'flex', alignItems: 'center', gap: '0.6rem',
-                      padding: '0.42rem 0.5rem', borderRadius: '6px',
-                      textDecoration: 'none', color: 'inherit',
-                      transition: 'background 0.1s',
-                    }}
-                      className="dropdown-item">
-                      <span style={{ fontSize: '0.7rem', color: 'var(--accent-primary)', fontWeight: 700, width: '14px', textAlign: 'center' }}>{s.icon}</span>
+                    <Link key={s.href} href={s.href} onClick={close}
+                      className="dropdown-item dropdown-type-item"
+                      style={{
+                        display: 'flex', alignItems: 'flex-start', gap: '0.7rem',
+                        padding: '0.5rem 0.5rem', borderRadius: '7px',
+                        textDecoration: 'none', color: 'inherit',
+                      }}>
+                      <span className="content-type-icon" style={{ flexShrink: 0, marginTop: '0.1rem' }}>
+                        <s.Icon size={20} />
+                      </span>
                       <div>
                         <div style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>{s.label}</div>
-                        <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)' }}>{s.desc}</div>
+                        <div style={{ fontSize: '0.68rem', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', lineHeight: 1.4, marginTop: '0.15rem' }}>{s.desc}</div>
                       </div>
                     </Link>
                   ))}

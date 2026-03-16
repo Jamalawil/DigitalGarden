@@ -19,9 +19,9 @@ const TYPES: { value: ContentType | 'all'; label: string }[] = [
 
 const STAGES = [
   { value: 'all',       label: 'All Growth Stages' },
-  { value: 'seedling',  label: '🌱 Seedling' },
-  { value: 'budding',   label: '🌿 Budding' },
-  { value: 'evergreen', label: '🌳 Evergreen' },
+  { value: 'seedling',  label: 'Seedling' },
+  { value: 'budding',   label: 'Budding' },
+  { value: 'evergreen', label: 'Evergreen' },
 ];
 
 const TOPIC_VISIBLE_COUNT = 6;
@@ -105,16 +105,16 @@ export default function GardenClient({ items, topics }: { items: ContentItem[]; 
               key={t.slug}
               onClick={() => setActiveTopic(activeTopic === t.slug ? null : t.slug)}
               style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '0.875rem', fontFamily: 'var(--font-ui)',
-                color: activeTopic === t.slug ? 'var(--text-primary)' : 'var(--text-secondary)',
-                fontWeight: activeTopic === t.slug ? 700 : 400,
-                padding: '0.2rem 0.55rem',
-                borderRadius: '4px',
-                textDecoration: activeTopic === t.slug ? 'underline' : 'none',
-                textUnderlineOffset: '3px',
+                background: activeTopic === t.slug ? 'var(--accent-light)' : 'none',
+                border: activeTopic === t.slug ? '1px solid var(--accent-primary)' : '1px solid transparent',
+                cursor: 'pointer',
+                fontSize: '0.85rem', fontFamily: 'var(--font-ui)',
+                color: activeTopic === t.slug ? 'var(--accent-hover)' : 'var(--text-secondary)',
+                fontWeight: activeTopic === t.slug ? 600 : 400,
+                padding: '0.22rem 0.65rem',
+                borderRadius: '999px',
                 whiteSpace: 'nowrap',
-                transition: 'color 0.1s',
+                transition: 'all 0.15s',
               }}
             >
               {t.label}
@@ -126,15 +126,16 @@ export default function GardenClient({ items, topics }: { items: ContentItem[]; 
               onClick={() => setShowAllTopics(!showAllTopics)}
               style={{
                 background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: '0.72rem', fontWeight: 700,
-                color: '#b56a55',
+                fontSize: '0.75rem', fontWeight: 700,
+                color: 'var(--accent-primary)',
                 fontFamily: 'var(--font-ui)',
-                textTransform: 'uppercase', letterSpacing: '0.06em',
-                padding: '0.2rem 0.5rem',
+                textTransform: 'uppercase', letterSpacing: '0.07em',
+                padding: '0.22rem 0.5rem',
                 whiteSpace: 'nowrap',
+                transition: 'color 0.15s',
               }}
             >
-              {showAllTopics ? 'Show less' : 'Show more'}
+              {showAllTopics ? 'Show less ↑' : 'Show more ↓'}
             </button>
           )}
         </div>
