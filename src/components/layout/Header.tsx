@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   EssayIcon, NoteIcon, PatternIcon, SmidgeonIcon,
   TalkIcon, PodcastIcon, LibraryIcon, AntilibraryIcon,
+  GENRE_ICONS,
 } from '@/components/ui/ContentTypeIcons';
 
 function LogoMark({ size = 44 }: { size?: number }) {
@@ -167,18 +168,26 @@ export default function Header() {
                     <div style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-tertiary)', fontFamily: 'var(--font-ui)', marginBottom: '0.55rem' }}>
                       Primary Genres
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.15rem' }}>
-                      {PRIMARY_GENRES.map((g) => (
-                        <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
-                          className="dropdown-item"
-                          style={{
-                            display: 'block',
-                            padding: '0.32rem 0.5rem', borderRadius: '5px',
-                            textDecoration: 'none', color: 'inherit',
-                          }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
-                        </Link>
-                      ))}
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.1rem' }}>
+                      {PRIMARY_GENRES.map((g) => {
+                        const GenreIcon = GENRE_ICONS[g.slug];
+                        return (
+                          <Link key={g.slug} href={`/genres/${g.slug}`} onClick={close}
+                            className="dropdown-item dropdown-genre-item"
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '0.45rem',
+                              padding: '0.32rem 0.5rem', borderRadius: '5px',
+                              textDecoration: 'none', color: 'inherit',
+                            }}>
+                            {GenreIcon && (
+                              <span className="content-type-icon" style={{ flexShrink: 0 }}>
+                                <GenreIcon size={15} />
+                              </span>
+                            )}
+                            <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--text-primary)' }}>{g.label}</span>
+                          </Link>
+                        );
+                      })}
                     </div>
                   </div>
 

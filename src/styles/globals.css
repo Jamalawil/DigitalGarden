@@ -322,9 +322,10 @@ a:hover { color: var(--accent-hover); }
 }
 
 /* Dropdown item hover recolors its icon */
-.dropdown-type-item:hover .content-type-icon {
+.dropdown-type-item:hover .content-type-icon,
+.dropdown-genre-item:hover .content-type-icon {
   color: var(--accent-primary);
-  transform: scale(1.15);
+  transform: scale(1.2) rotate(-6deg);
 }
 
 /* Thumbnail placeholder icon */
